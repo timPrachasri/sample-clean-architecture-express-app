@@ -47,7 +47,7 @@ export class CreateOneItemUsecase
       await this._itemRepository.createOne(entity)
 
       if (isSome(entity.picture)) {
-        await this._cdnAdapter.write<string, null>(
+        await this._cdnAdapter.write<string, void>(
           request.picture as string,
           entity.picture.value,
         )
