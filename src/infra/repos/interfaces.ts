@@ -15,6 +15,6 @@ export interface ITransaction {
 
 export interface IItemRepository {
   createOne(entity: ItemEntity): Promise<boolean>
-  find(condition: findItemQuery): Promise<ItemEntities>
+  find(condition?: findItemQuery): Promise<ItemEntities>
   save(entity: ItemEntity): Promise<boolean>
 }

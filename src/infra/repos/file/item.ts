@@ -84,7 +84,7 @@ export class ItemRepository implements IItemRepository {
     return writeResult
   }
 
-  async find(condition: findItemQuery): Promise<ItemEntities> {
+  async find(condition?: findItemQuery): Promise<ItemEntities> {
     const data = (await this.db.getObject<IJSONDBSchema>(
       this.dataPath,
     )) as IJSONDBSchema
@@ -93,11 +93,11 @@ export class ItemRepository implements IItemRepository {
       fromNullable(data),
       getOrElse(() => [] as Array<IJSONDBSchemaIItem>),
       filter((item: IJSONDBSchemaIItem) => {
-        if (condition.id) {
+        if (condition?.id) {
           return item.id === condition.id
         }
 
-        if (!condition.includeDeleted) {
+        if (!condition?.includeDeleted) {
           return item.deletedAt == undefined
         }
 
