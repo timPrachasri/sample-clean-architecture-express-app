@@ -2,8 +2,10 @@ import express from 'express'
 import { body, validationResult } from 'express-validator'
 import isBase64 from 'is-base64'
 
-import { createOneItemHandler } from '~/presentation/http/api/v1'
-import { Result, right } from '~/shared/core'
+import {
+  createOneItemHandler,
+  getAllItemsHandler,
+} from '~/presentation/http/api/v1'
 import { BadRequest, Result, left, right } from '~/shared/core'
 
 import { BaseHandler } from '../..'
@@ -42,6 +44,9 @@ v1Router.post(
     createOneItemHandler.execute(req, res)
   },
 )
+
+v1Router.get('/items', (req, res) => {
+  getAllItemsHandler.execute(req, res)
 })
 
 export { v1Router }
