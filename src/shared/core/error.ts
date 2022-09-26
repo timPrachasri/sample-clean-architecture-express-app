@@ -11,7 +11,7 @@ export abstract class BaseError implements IBaseError {
   constructor(message: string, code: number, reason?: string, err?: Error) {
     this.message = `${message}${reason ? ':: ' + reason : ''}`
     this.code = code
-    this.reason = reason
+    this.reason = reason ?? ''
     this.maybeError = err
   }
 }
