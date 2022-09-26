@@ -104,19 +104,22 @@ export class ItemRepository implements IItemRepository {
         return true
       }),
       map((item: IJSONDBSchemaIItem) => {
-        return ItemEntity.create({
-          name: item.name,
-          unit: new Unit({
-            name: item.unit.name,
-            kernelCount: item.unit.kernelCount,
-          }),
-          quantity: item.quantity,
-          updatedAt: item.updatedAt ?? undefined,
-          createdAt: item.createdAt ?? undefined,
-          location: item.location ?? undefined,
-          picture: item.picture ?? undefined,
-          note: item.note ?? undefined,
-        })
+        return ItemEntity.create(
+          {
+            name: item.name,
+            unit: new Unit({
+              name: item.unit.name,
+              kernelCount: item.unit.kernelCount,
+            }),
+            quantity: item.quantity,
+            updatedAt: item.updatedAt ?? undefined,
+            createdAt: item.createdAt ?? undefined,
+            location: item.location ?? undefined,
+            picture: item.picture ?? undefined,
+            note: item.note ?? undefined,
+          },
+          new UniqueEntityID(item.id),
+        )
       }),
     )
 
