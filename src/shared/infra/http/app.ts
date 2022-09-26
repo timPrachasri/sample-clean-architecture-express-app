@@ -4,6 +4,9 @@ import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
 import morgan from 'morgan'
+import path from 'path'
+
+import { staticFilePath } from '~/constants'
 
 import { v1Router } from './api/v1'
 
@@ -22,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+app.use(express.static(staticFilePath))
 app.use('/api/v1', v1Router)
 
 const port = process.env.PORT || 3002
