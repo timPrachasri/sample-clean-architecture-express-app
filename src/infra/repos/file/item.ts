@@ -5,6 +5,7 @@ import { JsonDB } from 'node-json-db'
 
 import { ItemEntities, ItemEntity } from '~/domain/entities/item'
 import { Unit } from '~/domain/value-objects'
+import { UniqueEntityID } from '~/shared/domain'
 
 import { IItemRepository } from '../interfaces'
 import { IJSONDBSchema, IJSONDBSchemaIItem, findItemQuery } from './interfaces'
@@ -33,6 +34,7 @@ export class ItemRepository implements IItemRepository {
       quantity: entity.quantity,
       updatedAt: entity.updatedAt,
       createdAt: entity.createdAt,
+      deletedAt: null,
       location: getOrElseW<string | null>(() => null)(entity.location),
       picture: getOrElseW<string | null>(() => null)(entity.picture),
       note: getOrElseW<string | null>(() => null)(entity.note),
@@ -98,7 +100,7 @@ export class ItemRepository implements IItemRepository {
         }
 
         if (!condition?.includeDeleted) {
-          return item.deletedAt == undefined
+          return !item.deletedAt
         }
 
         return true
