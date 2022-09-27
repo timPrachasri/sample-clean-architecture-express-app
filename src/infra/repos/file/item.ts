@@ -1,5 +1,12 @@
 import { filter, findFirst, map } from 'fp-ts/Array'
-import { fromNullable, getOrElse, getOrElseW, match } from 'fp-ts/lib/Option'
+import {
+  Option,
+  fromNullable,
+  getOrElse,
+  getOrElseW,
+  match,
+  map as optionMap,
+} from 'fp-ts/lib/Option'
 import { pipe } from 'fp-ts/lib/function'
 import { JsonDB } from 'node-json-db'
 
@@ -126,5 +133,39 @@ export class ItemRepository implements IItemRepository {
     )
 
     return ItemEntities.create(items)
+  }
+
+  async findByID(id: string): Promise<Option<ItemEntity>> {
+    const data = (await this.db.getObject<IJSONDBSchema>(
+      this.dataPath,
+    )) as IJSONDBSchema
+
+    const item: Option<ItemEntity> = pipe(
+      fromNullable(data),
+      getOrElse(() => [] as Array<IJSONDBSchemaIItem>),
+      findFirst((item: IJSONDBSchemaIItem) => {
+        return item.id === id
+      }),
+      optionMap((item: IJSONDBSchemaIItem) => {
+        return ItemEntity.create(
+          {
+            name: item.name,
+            unit: new Unit({
+              name: item.unit.name,
+              kernelCount: item.unit.kernelCount,
+            }),
+            quantity: item.quantity,
+            updatedAt: item.updatedAt ?? undefined,
+            createdAt: item.createdAt ?? undefined,
+            location: item.location ?? undefined,
+            picture: item.picture ?? undefined,
+            note: item.note ?? undefined,
+          },
+          new UniqueEntityID(item.id),
+        )
+      }),
+    )
+
+    return item
   }
 }

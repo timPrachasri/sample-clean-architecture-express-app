@@ -1,3 +1,5 @@
+import { Option } from 'fp-ts/lib/Option'
+
 import { ItemEntities, ItemEntity } from '~/domain/entities/item'
 
 import { findItemQuery } from './file/interfaces'
@@ -17,4 +19,5 @@ export interface IItemRepository {
   createOne(entity: ItemEntity): Promise<boolean>
   find(condition?: findItemQuery): Promise<ItemEntities>
   save(entity: ItemEntity): Promise<boolean>
+  findByID(id: string): Promise<Option<ItemEntity>>
 }
