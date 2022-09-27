@@ -21,9 +21,9 @@ app.use(compression())
 app.use(helmet())
 app.use(morgan('combined'))
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }))
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: '50mb' }))
 
 app.use(express.static(staticFilePath))
 app.use('/api/v1', v1Router)
