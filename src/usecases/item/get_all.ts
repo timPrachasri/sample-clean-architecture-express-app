@@ -1,7 +1,7 @@
 import { map } from 'fp-ts/lib/Array'
 import { getOrElseW } from 'fp-ts/lib/Option'
 
-import { ICreateItemInputDTO } from '~/domain/dtos/item'
+import { IGetItemsResponseDTO } from '~/domain/dtos'
 import { ItemEntity } from '~/domain/entities/item'
 import { IItemRepository } from '~/infra/repos/interfaces'
 import {
@@ -13,7 +13,6 @@ import {
 } from '~/shared/core'
 
 import { TResponse } from '../interface'
-import { IGetItemsResponseDTO } from './interfaces'
 
 export class GetAllItemsUsecase
   implements UseCase<void, Promise<TResponse<IGetItemsResponseDTO>>>

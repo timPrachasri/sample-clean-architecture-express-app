@@ -1,5 +1,6 @@
 import { getOrElseW, isSome } from 'fp-ts/lib/Option'
 
+import { ICreateItemResponseDTO } from '~/domain/dtos'
 import { ICreateItemInputDTO } from '~/domain/dtos/item'
 import { ItemEntity } from '~/domain/entities/item'
 import { Unit } from '~/domain/value-objects'
@@ -14,7 +15,6 @@ import {
 } from '~/shared/core'
 
 import { TResponse } from '../interface'
-import { ICreateItemResponseDTO } from './interfaces'
 
 export class CreateOneItemUsecase
   implements

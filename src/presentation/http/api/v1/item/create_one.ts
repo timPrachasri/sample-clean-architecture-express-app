@@ -1,10 +1,9 @@
 import * as express from 'express'
 
-import { ICreateItemInputDTO } from '~/domain/dtos/item'
+import { ICreateItemInputDTO, ICreateItemResponseDTO } from '~/domain/dtos/item'
 import { UseCase } from '~/shared/core/usecase'
 import { BaseHandler } from '~/shared/infra/http'
 import { TResponse } from '~/usecases/interface'
-import { ICreateItemResponseDTO } from '~/usecases/item/interfaces'
 
 export class CreateOneItemHandler extends BaseHandler {
   private _useCase: UseCase<

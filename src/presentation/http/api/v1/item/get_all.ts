@@ -1,9 +1,9 @@
 import * as express from 'express'
 
+import { IGetItemsResponseDTO } from '~/domain/dtos'
 import { UseCase } from '~/shared/core/usecase'
 import { BaseHandler } from '~/shared/infra/http'
 import { TResponse } from '~/usecases/interface'
-import { IGetItemsResponseDTO } from '~/usecases/item/interfaces'
 
 export class GetAllItemsHandler extends BaseHandler {
   private _useCase: UseCase<void, Promise<TResponse<IGetItemsResponseDTO>>>
