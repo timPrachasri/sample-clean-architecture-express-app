@@ -4,9 +4,17 @@ import { join } from 'path'
 import { dbFilePath, staticFilePath } from '~/constants'
 import { StaticCDNAdapter } from '~/infra/adapters/cdn'
 import { ItemRepository } from '~/infra/repos/file/item'
-import { CreateOneItemUsecase, GetAllItemsUsecase } from '~/usecases/item'
+import {
+  CreateOneItemUsecase,
+  GetAllItemsUsecase,
+  UpdateOneItemUsecase,
+} from '~/usecases/item'
 
-import { CreateOneItemHandler, GetAllItemsHandler } from '../item'
+import {
+  CreateOneItemHandler,
+  GetAllItemsHandler,
+  UpdateOneItemHandler,
+} from '../item'
 
 // CDN adapter
 const imageStaticFilePath = join(staticFilePath, 'images')
@@ -25,9 +33,18 @@ export const createOneItemUsecase = new CreateOneItemUsecase(
 
 export const getAllItemsUsecase = new GetAllItemsUsecase(itemRepository)
 
+export const updateOneItemUsecase = new UpdateOneItemUsecase(
+  imageStaticCDNAdapter,
+  itemRepository,
+)
+
 // Presentations
 export const createOneItemHandler = new CreateOneItemHandler(
   createOneItemUsecase,
 )
 
 export const getAllItemsHandler = new GetAllItemsHandler(getAllItemsUsecase)
+
+export const updateOneItemHandler = new UpdateOneItemHandler(
+  updateOneItemUsecase,
+)

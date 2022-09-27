@@ -1,10 +1,11 @@
 import express from 'express'
-import { body, validationResult } from 'express-validator'
+import { body, param, validationResult } from 'express-validator'
 import isBase64 from 'is-base64'
 
 import {
   createOneItemHandler,
   getAllItemsHandler,
+  updateOneItemHandler,
 } from '~/presentation/http/api/v1'
 import { BadRequest, Result, left, right } from '~/shared/core'
 
@@ -48,5 +49,32 @@ v1Router.post(
 v1Router.get('/items', (req, res) => {
   getAllItemsHandler.execute(req, res)
 })
+
+v1Router.patch(
+  '/items/:id',
+  param('id').isUUID(),
+  body('name').optional().isLength({ min: 1 }),
+  body('quantity')
+    .optional()
+    .isNumeric()
+    .custom((value) => value >= 0),
+  body('location').optional().isLength({ min: 1, max: 20 }),
+  body('note').optional().isLength({ min: 1, max: 20 }),
+  body('picture')
+    .optional()
+    .custom((value) => {
+      return isBase64(value, { mimeRequired: true })
+    }),
+  (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return BaseHandler.parseResponse<null>(
+        res,
+        left(Result.fail<BadRequest>(new BadRequest('Bad Request'))),
+      )
+    }
+    updateOneItemHandler.execute(req, res)
+  },
+)
 
 export { v1Router }
