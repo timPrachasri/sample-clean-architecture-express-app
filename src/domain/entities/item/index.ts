@@ -41,7 +41,7 @@ export class ItemEntity extends Entity<IItemProps> {
 
   get createdAt(): Date {
     return pipe(
-      fromNullable(this.props.updatedAt),
+      fromNullable(this.props.createdAt),
       getOrElse(() => DateTime.utc().toJSDate()),
     )
   }
@@ -86,10 +86,21 @@ export class ItemEntity extends Entity<IItemProps> {
   }
 
   public update(params: IItemUpdateParams): ItemEntity {
-    this.props = {
-      ...this.props,
-      ...params,
-      updatedAt: DateTime.utc().toJSDate(),
+    this.props.updatedAt = DateTime.utc().toJSDate()
+    if (params.name) {
+      this.props.name = params.name
+    }
+    if (params.quantity) {
+      this.props.quantity = params.quantity
+    }
+    if (params.location) {
+      this.props.location = params.location
+    }
+    if (params.picture) {
+      this.props.picture = params.picture
+    }
+    if (params.note) {
+      this.props.note = params.note
     }
     return this
   }
