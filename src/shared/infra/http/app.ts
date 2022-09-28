@@ -25,7 +25,12 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }))
 // parse application/json
 app.use(bodyParser.json({ limit: '50mb' }))
 
-app.use(express.static(staticFilePath))
+app
+  .use((req, res, next) => {
+    res.append('Cross-Origin-Resource-Policy', ['cross-origin'])
+    next()
+  })
+  .use(express.static(staticFilePath))
 app.use('/api/v1', v1Router)
 
 const port = process.env.PORT || 3002
