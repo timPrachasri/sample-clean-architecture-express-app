@@ -51,6 +51,10 @@ export interface IUpdateItemResponseDTO {
   createdAt: string | null
 }
 
+export interface IDeleteItemResponseDTO {
+  id: string
+}
+
 export interface IGetItemResponseDTO {
   id: string
   name: string

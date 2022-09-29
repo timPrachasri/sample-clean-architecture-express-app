@@ -4,6 +4,7 @@ import isBase64 from 'is-base64'
 
 import {
   createOneItemHandler,
+  deleteOneItemHandler,
   getAllItemsHandler,
   updateOneItemHandler,
 } from '~/presentation/http/api/v1'
@@ -77,4 +78,14 @@ v1Router.patch(
   },
 )
 
+v1Router.delete('/items/:id', param('id').isUUID(), (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return BaseHandler.parseResponse<null>(
+      res,
+      left(Result.fail<BadRequest>(new BadRequest('Bad Request'))),
+    )
+  }
+  deleteOneItemHandler.execute(req, res)
+})
 export { v1Router }

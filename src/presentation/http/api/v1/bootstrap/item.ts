@@ -6,12 +6,14 @@ import { StaticCDNAdapter } from '~/infra/adapters/cdn'
 import { ItemRepository } from '~/infra/repos/file/item'
 import {
   CreateOneItemUsecase,
+  DeleteOneItemUsecase,
   GetAllItemsUsecase,
   UpdateOneItemUsecase,
 } from '~/usecases/item'
 
 import {
   CreateOneItemHandler,
+  DeleteOneItemHandler,
   GetAllItemsHandler,
   UpdateOneItemHandler,
 } from '../item'
@@ -38,6 +40,8 @@ export const updateOneItemUsecase = new UpdateOneItemUsecase(
   itemRepository,
 )
 
+export const deleteOneItemUsecase = new DeleteOneItemUsecase(itemRepository)
+
 // Presentations
 export const createOneItemHandler = new CreateOneItemHandler(
   createOneItemUsecase,
@@ -47,4 +51,8 @@ export const getAllItemsHandler = new GetAllItemsHandler(getAllItemsUsecase)
 
 export const updateOneItemHandler = new UpdateOneItemHandler(
   updateOneItemUsecase,
+)
+
+export const deleteOneItemHandler = new DeleteOneItemHandler(
+  deleteOneItemUsecase,
 )
