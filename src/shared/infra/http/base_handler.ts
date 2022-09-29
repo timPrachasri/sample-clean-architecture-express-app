@@ -1,4 +1,5 @@
 import * as express from 'express'
+import jsonexport from 'jsonexport'
 
 import {
   BaseError,
@@ -76,6 +77,38 @@ export abstract class BaseHandler {
         status: 'success',
         data: usecaseEither.value.getValue(),
       })
+    }
+    const err = usecaseEither.value.errorValue()
+
+    defaultLogger.warn(`${err.message}-${err.reason}`)
+    stdErrorLogger.error(err.maybeError)
+
+    return BaseHandler.jsonResponse(res, err.code, {
+      status: 'error',
+      data: {
+        message: err.message,
+      },
+    })
+  }
+
+  public static downloadResponse<R>(
+    res: express.Response,
+    usecaseEither: Either<Result<BaseError>, Result<R>>,
+  ): any {
+    if (usecaseEither.isRight()) {
+      const value = usecaseEither.value.getValue()
+      defaultLogger.info('', { meta: value })
+
+      jsonexport(usecaseEither.value.getValue(), function (err, csv) {
+        if (err) {
+          throw err
+        }
+        res.header('Content-Type', 'text/csv')
+        res.attachment('items.csv')
+        res.write(csv, 'binary')
+        res.end()
+      })
+      return
     }
     const err = usecaseEither.value.errorValue()
 

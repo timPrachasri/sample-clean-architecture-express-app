@@ -5,6 +5,7 @@ import isBase64 from 'is-base64'
 import {
   createOneItemHandler,
   deleteOneItemHandler,
+  downloadAllItemsHandler,
   getAllItemsHandler,
   updateOneItemHandler,
 } from '~/presentation/http/api/v1'
@@ -88,4 +89,10 @@ v1Router.delete('/items/:id', param('id').isUUID(), (req, res) => {
   }
   deleteOneItemHandler.execute(req, res)
 })
+
+v1Router.get('/items.download', (req, res) => {
+  // use the below package to convert json to xls
+  downloadAllItemsHandler.execute(req, res)
+})
+
 export { v1Router }

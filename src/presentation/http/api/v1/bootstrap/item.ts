@@ -14,6 +14,7 @@ import {
 import {
   CreateOneItemHandler,
   DeleteOneItemHandler,
+  DownloadAllItemsHandler,
   GetAllItemsHandler,
   UpdateOneItemHandler,
 } from '../item'
@@ -48,6 +49,10 @@ export const createOneItemHandler = new CreateOneItemHandler(
 )
 
 export const getAllItemsHandler = new GetAllItemsHandler(getAllItemsUsecase)
+
+export const downloadAllItemsHandler = new DownloadAllItemsHandler(
+  getAllItemsUsecase,
+)
 
 export const updateOneItemHandler = new UpdateOneItemHandler(
   updateOneItemUsecase,
